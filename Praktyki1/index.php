@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
     <?php
-        include("head.html")
+        include("head.php")
    ?>
 <body>
     <div class="header">
@@ -17,7 +17,7 @@
         <img class="img" src="https://i0.wp.com/www.pies.pl/wp-content/uploads/karma-dla-jamnika-scaled.jpg?fit=1400%2C800&ssl=1">
     </div>
     <?php
-        include("footer.html")
+        include("footer.php")
     ?>
 </body>
 </html>
