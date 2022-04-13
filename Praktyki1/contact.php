@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
 <?php
-        include("head.php")
+        include("Template/head.php");
    ?>
 <body>
 <div class="header">
@@ -10,7 +10,7 @@
         </h1>
     </div>
     <?php
-        include("menu.php")
+        include("Template/menu.php");
     ?>
     <div class="content">
         <div class="formContainer">
@@ -22,7 +22,7 @@
         </div>
     </div>
     <?php
-        include("footer.php")
+        include("Template/footer.php");
     ?>
 </body>
 </html>
