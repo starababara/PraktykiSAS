@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pl">
     <?php
-        include("head.html")
+        include("head.php")
     ?>
     </head>
     <body>
@@ -32,6 +32,6 @@
         </div>
     </div>
     <?php
-        include("footer.html")
+        include("footer.php")
     ?>
 </body>
