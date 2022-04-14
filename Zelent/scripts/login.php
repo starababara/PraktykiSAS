@@ -20,36 +20,45 @@
         $login=$_POST['name'];
         $paswd=$_POST['pass'];
 
-        $login = htmlentities($login, ENT_QUOTES, "UTF-8");
-        $paswd = htmlentities($paswd, ENT_QUOTES, "UTF-8");
 
-        $sql="SELECT * FROM uzytkownicy WHERE user='%s' AND pass='%s' ";
+        $login = htmlentities($login, ENT_QUOTES, "UTF-8");
+
+
+        $sql="SELECT * FROM uzytkownicy WHERE user='%s'";
         if($result=$connect->query(sprintf($sql, 
-        mysqli_real_escape_string($connect, $login), 
-        mysqli_real_escape_string($connect, $paswd))))
+        mysqli_real_escape_string($connect, $login))))
         {
             $UserNum = $result->num_rows;
             if($UserNum>0)
             {
-                $_SESSION['loged']=true;
-
                 $row=$result->fetch_assoc();
-                $_SESSION['userID'] = $row['ID'];
-                $_SESSION['email'] = $row['email'];
-                $_SESSION['name'] = $row['user'];
-                $_SESSION['wood'] = $row['drewno'];
-                $_SESSION['stone'] = $row['kamien'];
-                $_SESSION['wheat'] = $row['zboze'];
-                $_SESSION['premium'] = $row['dnipremium'];
+                if(password_verify($paswd, $row['pass']))
+                {
+                    $_SESSION['loged']=true;
 
-                unset($_SESSION['error']);
-
-                $result->free_result();
-                header("Location: /Zelent/game.php");
+                
+                    $_SESSION['userID'] = $row['ID'];
+                    $_SESSION['email'] = $row['email'];
+                    $_SESSION['name'] = $row['user'];
+                    $_SESSION['wood'] = $row['drewno'];
+                    $_SESSION['stone'] = $row['kamien'];
+                    $_SESSION['wheat'] = $row['zboze'];
+                    $_SESSION['premium'] = $row['dnipremium'];
+    
+                    unset($_SESSION['error']);
+    
+                    $result->free_result();
+                    header("Location: /Zelent/game.php");
+                }
+                else
+                {
+                    $_SESSION['error']='<span style="color:red">Nieprawidłowe hasło</span>';
+                    header("Location: /Zelent");
+                }
             }
             else
             {
-                $_SESSION['error']='<span style="color:red">Nieprawidłowy login lub hasło</span>';
+                $_SESSION['error']='<span style="color:red">Nieprawidłowy login</span>';
                 header("Location: /Zelent");
             }
         }
