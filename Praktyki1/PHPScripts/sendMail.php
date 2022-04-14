@@ -45,4 +45,6 @@
     {
     echo $e->getMessage();
     }
+
+header('Location: /Praktyki1/contact.php')
 ?>
