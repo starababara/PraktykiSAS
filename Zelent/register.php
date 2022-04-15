@@ -101,7 +101,7 @@
         {
             $paswdHash=password_hash($paswd1, PASSWORD_DEFAULT);
 
-            $CreateUser= "INSERT INTO uzytkownicy VALUES(NULL, '$nickname', '$paswdHash', '$email', 100, 100, 100, 14)";
+            $CreateUser= "INSERT INTO uzytkownicy VALUES(NULL, '$nickname', '$paswdHash', '$email', 100, 100, 100, now()+ INTERVAL 14 DAY)";
 
             if($connect->query($CreateUser))
             {
