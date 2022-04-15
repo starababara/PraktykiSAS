@@ -12,7 +12,7 @@
             $validation=false;
             $_SESSION['NameErr']='nick musi mieć od 3 do 20 znaków';
         }
-        if(ctype_alnum($nickname))
+        if(!ctype_alnum($nickname))
         {
             $validation=false;
             $_SESSION['NameErr']='nazwa może składać się tylko z liter i cyfr(bez polskich znaków)';
@@ -53,12 +53,63 @@
             $_SESSION['BotErr']='Chyba jesteś botem, dla szachisty to nawet dobrze, gorzej dla garczy CS\'a';
         }
 
+        try
+        {
+            require_once("scripts/DataBaseConnection.php");
+            if($connect->connect_errno!=0)
+            {
+                throw new Exception(mysqlp_connect_errno());
+            }
+            else
+            {
+                $CheckMail="SELECT id FROM uzytkownicy WHERE email='$email'";
+                $result = $connect->query($CheckMail);
+                if(!$result)
+                {
+                    throw new Exception($connect->error);
+                }
+
+                $MailExist=$result->num_rows;
+                if($MailExist>0)
+                {
+                    $validation = false;
+                    $_SESSION['MailErr']='Ten mail ma już przypisane konto';
+                }
+
+
+                $CheckName="SELECT id FROM uzytkownicy WHERE user='$nickname'";
+                $result = $connect->query($CheckName);
+                if(!$result)
+                {
+                    throw new Exception($connect->error);
+                }
+
+                $NameExist=$result->num_rows;
+                if($NameExist>0)
+                {
+                    $validation = false;
+                    $_SESSION['NameErr']='Ten nick jest już zarezerwowany';
+                }
+            }
+        }
+        catch(Exception $e)
+        {
+            echo"błąd serwera, prosimy spróbwac później";
+        }
+
         if($validation==true)
         {
             $paswdHash=password_hash($paswd1, PASSWORD_DEFAULT);
-            //dodawanie gracza do bazy
-            //header("Location: game.php");
-            exit();
+
+            $CreateUser= "INSERT INTO uzytkownicy VALUES(NULL, '$nickname', '$paswdHash', '$email', 100, 100, 100, 14)";
+
+            if($connect->query($CreateUser))
+            {
+                $connect->close();
+                $_SESSION['$registerd']=true;
+                header("Location: Wellcome.php");
+                exit();
+            }
         }
     }
 
@@ -75,41 +126,46 @@
 </head>
     <body>
         <form method="post">
-            <input required type="text" name="email" placeholder="email"></br>
-            <?php
-                if(isset($_SESSION['MailErr']))
-                {
-                    echo "<div class='error'>".$_SESSION['MailErr']."</div>";
-                }
-            ?>
-            <input required type="text" name="name" placeholder="login"></br>
+            <input type="text" name="name" placeholder="login"></br>
             <?php
                 if(isset($_SESSION['NameErr']))
                 {
                     echo "<div class='error'>".$_SESSION['NameErr']."</div>";
+                    unset($_SESSION['NameErr']);
                 }
             ?>
-            <input required type="password" name="pass1" placeholder="hasło"></br>
+            <input type="text" name="email" placeholder="email"></br>
+            <?php
+                if(isset($_SESSION['MailErr']))
+                {
+                    echo "<div class='error'>".$_SESSION['MailErr']."</div>";
+                    unset($_SESSION['MailErr']);
+                }
+            ?>
+            <input type="password" name="pass1" placeholder="hasło"></br>
             <?php
                 if(isset($_SESSION['Pass1Err']))
                 {
                     echo "<div class='error'>".$_SESSION['Pass1Err']."</div>";
+                    unset($_SESSION['Pass1Err']);
                 }
             ?>
-            <input required type="password" name="pass2" placeholder="powtórz hasło"></br>
+            <input type="password" name="pass2" placeholder="powtórz hasło"></br>
             <?php
                 if(isset($_SESSION['Pass2Err']))
                 {
                     echo "<div class='error'>".$_SESSION['Pass2Err']."</div>";
+                    unset($_SESSION['Pass2Err']);
                 }
             ?>
             <label>
-                <input required type="checkbox" name="statute"> Akceptuję regulamin</br>
+                <input type="checkbox" name="statute"> Akceptuję regulamin</br>
             </label>
             <?php
                 if(isset($_SESSION['StatuteErr']))
                 {
                     echo "<div class='error'>".$_SESSION['StatuteErr']."</div>";
+                    unset($_SESSION['StatuteErr']);
                 }
             ?>
             
@@ -123,6 +179,7 @@
                 if(isset($_SESSION['BotErr']))
                 {
                     echo "<div class='error'>".$_SESSION['BotErr']."</div>";
+                    unset($_SESSION['BotErr']);
                 }
             ?>
             <input 
@@ -130,5 +187,6 @@
                 value="Zarejstruj się">
             </input>
         </form>
+        <h5>Masz konto?<a href="index.php">Zaloguj się!</a></h5>
     </body>
 </html>

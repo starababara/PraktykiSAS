@@ -20,7 +20,7 @@
 </head>
     <body>
         <form action="Scripts/login.php" method="post">
-            <input required type="text" name="name" placeholder="login"></br>
+            <input required type="text" name="nickname" placeholder="login"></br>
             <input required type="password" name="pass" placeholder="hasło"></br>
             <input type="submit" value="zaloguj"></br>
         </form>

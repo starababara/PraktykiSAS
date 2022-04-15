@@ -2,14 +2,14 @@
     session_start();
 
 
-    if(!isset($_POST['name']) || !isset($_POST['pass']))
+    if(!isset($_POST['nickname']) || !isset($_POST['pass']))
     {
         header("Location: /Zelent");
         exit();
     }
     
     require_once("DataBaseConnection.php");
-    $connect= new mysqli($host, $dbUser, $dbPaswd, $dbName);
+    
 
     if($connect->connect_errno!=0)
     {
@@ -17,16 +17,16 @@
     }
     else
     {        
-        $login=$_POST['name'];
+        $nickname=$_POST['name'];
         $paswd=$_POST['pass'];
 
 
-        $login = htmlentities($login, ENT_QUOTES, "UTF-8");
+        $nickname = htmlentities($nickname, ENT_QUOTES, "UTF-8");
 
 
         $sql="SELECT * FROM uzytkownicy WHERE user='%s'";
         if($result=$connect->query(sprintf($sql, 
-        mysqli_real_escape_string($connect, $login))))
+        mysqli_real_escape_string($connect, $nickname))))
         {
             $UserNum = $result->num_rows;
             if($UserNum>0)

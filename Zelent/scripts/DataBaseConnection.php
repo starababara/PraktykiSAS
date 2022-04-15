@@ -4,5 +4,5 @@
     $dbPaswd="";
     $dbName="zelent1";
 
-
+    $connect= new mysqli($host, $dbUser, $dbPaswd, $dbName);
 ?>
