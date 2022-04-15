@@ -17,7 +17,7 @@
     }
     else
     {        
-        $nickname=$_POST['name'];
+        $nickname=$_POST['nickname'];
         $paswd=$_POST['pass'];
 
 
@@ -29,7 +29,7 @@
         mysqli_real_escape_string($connect, $nickname))))
         {
             $UserNum = $result->num_rows;
-            if($UserNum>0)
+            if($UserNum!=0)
             {
                 $row=$result->fetch_assoc();
                 if(password_verify($paswd, $row['pass']))
