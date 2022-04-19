@@ -32,7 +32,15 @@ session_start();
                     <label>Podaj adres e-mail
                         <input type="email" name="email">
                     </label>
-                    <input type="submit" value="Zapisz się!">
+                    <input type="submit" value="Zapisz się!" value=
+                        <?=isset($_SESSION['givenEmail']) ? '"'.$_SESSION['givenEmail'].'"' : ''?>>
+                    <?php
+                        if(isset($_SESSION['givenEmail']))
+                        {
+                            echo"<p>to nie jest poprawny adres</p>";
+                            unset($_SESSION['givenEmail']);
+                        }
+                    ?>
                 </form>
             </article>
         </main>

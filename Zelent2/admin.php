@@ -1,6 +1,11 @@
 <?php
 session_start();
 
+if(isset($_SESSION['logId']))
+{
+    header("Location: list.php");
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="pl">
@@ -31,6 +36,14 @@ session_start();
                     <label>Login <input type="text" name="login"></label>
                     <label>Hasło <input type="password" name="pass"></label>
                     <input type="submit" value="Zaloguj się!">
+
+                    <?php
+                        if(isset($_SESSION['badPass']))
+                        {
+                            echo "nie poprawne dane logowania";
+                            unset($_SESSION['badPass']);
+                        }
+                    ?>
                 </form>
             </article>
         </main>
