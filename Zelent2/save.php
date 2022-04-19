@@ -1,7 +1,31 @@
 <?php
 
-session_start();
+    session_start();
+    require_once 'database.php';
 
+    if(isset($_POST['email']))
+    {
+        $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);//sprawdzanie poprawności adresu email
+
+        if(empty($email))
+        {
+            $_SESSION['givenEmail'] = $_POST['email'];
+            header('Location: index.php');
+            exit();
+        }
+        else
+        {
+            $sql = 'INSERT INTO users VALUE (NULL, :email)';
+            $query=$db->prepare($sql);
+            $query->bindValue(':email', $email, PDO::PARAM_STR);
+            $query->execute();
+        }
+    }
+    else
+    {
+        header('Location: index.php');
+        exit();
+    }
 ?>
 <!DOCTYPE html>
 <html lang="pl">
