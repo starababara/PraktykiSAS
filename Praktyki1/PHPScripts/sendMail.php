@@ -28,7 +28,7 @@
         $email->Username = 's.synaszko@gmail.com';
         
         /* SMTP authentication password. */
-        $email->Password = 'NiebieskieKombiWGazie';
+        $email->Password = 'tutaj wstawić hasło';
         
         /* Set the SMTP port. */
         $email->Port = 587;
