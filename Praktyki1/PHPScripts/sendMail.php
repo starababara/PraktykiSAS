@@ -28,7 +28,7 @@
         $email->Username = 's.synaszko@gmail.com';
         
         /* SMTP authentication password. */
-        $email->Password = 'tutaj wstawić hasło';
+        $email->Password = 'NiebieskieKombiWGazie';
         
         /* Set the SMTP port. */
         $email->Port = 587;
@@ -46,5 +46,5 @@
     echo $e->getMessage();
     }
 
-header('Location: /Praktyki1/contact.php')
+header('Location: ../contact.php')
 ?>

@@ -36,7 +36,6 @@ if(isset($_SESSION['logId']))
                     <label>Login <input type="text" name="login"></label>
                     <label>Hasło <input type="password" name="pass"></label>
                     <input type="submit" value="Zaloguj się!">
-
                     <?php
                         if(isset($_SESSION['badPass']))
                         {
